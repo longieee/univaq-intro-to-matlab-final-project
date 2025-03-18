@@ -59,12 +59,12 @@ classdef test_fun < matlab.unittest.TestCase
 
         function testInvalidInputNonVector(testCase)
             % Test for non-vector input, should throw an error
-            testCase.verifyError(@() fun([1 2; 3 4], [5 6]), 'MATLAB:InputMustBeVector');
+            testCase.verifyError(@() fun([1 2; 3 4], [5 6]), 'fun:InvalidInput');
         end
 
         function testInvalidMethodArgument(testCase)
             % Test for invalid method argument, should throw an error
-            testCase.verifyError(@() fun([1, 2, 3], [4, 5, 6], "wrong_method"), 'MATLAB:InvalidMethod');
+            testCase.verifyError(@() fun([1, 2, 3], [4, 5, 6], "wrong_method"), 'fun:InvalidMethod');
         end
 
         function testSingleElementVectors(testCase)

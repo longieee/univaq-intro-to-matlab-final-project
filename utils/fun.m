@@ -19,15 +19,15 @@ function w = fun(u,v,method)
 
     % Input validation
     if nargin < 2
-        error('At least TWO input argument is required.');
+        error('fun:NotEnoughInputs', 'At least TWO input argument is required.');
     end
 
     if ~isvector(u)
-        error('Input argument must be a vector, received %s', mat2str(u));
+        error('fun:InvalidInput', 'Input argument must be a vector, received %s', mat2str(u));
     end
 
     if ~isvector(v)
-        error('Input argument must be a vector, received %s', mat2str(v));
+        error('fun:InvalidInput','Input argument must be a vector, received %s', mat2str(v));
     end
 
     % Provide default value for method argument
@@ -36,7 +36,7 @@ function w = fun(u,v,method)
     end
     % and then check its validity
     if method~="truncate" && method~="fill"
-        error('Method must be one of {truncate, fill} Received %s', method);
+        error('fun:InvalidMethod', 'Method must be one of {truncate, fill} Received %s', method);
     end
 
     % Main logic
