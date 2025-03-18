@@ -15,8 +15,17 @@ function results = runMATLABTests()
 
     % Add Code Coverage Plugin
     coverageFile = 'coverage.xml';
-    plugin = CodeCoveragePlugin.forFolder('utils', 'IncludingSubfolders', true, ...
-        'Format', CoberturaFormat(coverageFile));
+    
+    % Create the Cobertura format
+    coberturaFormat = CoberturaFormat(coverageFile);
+    
+    % Create the plugin with the correct syntax
+    plugin = CodeCoveragePlugin.forFolder('utils', 'IncludingSubfolders', true);
+    
+    % Set the format using the Producing method
+    plugin.Producing(coberturaFormat);
+    
+    % Add the plugin to the runner
     runner.addPlugin(plugin);
 
     % Run the tests

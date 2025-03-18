@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  run-matlab-unittest:
     runs-on: ubuntu-latest
 
     steps:
