@@ -25,7 +25,6 @@ jobs:
           source-folder: utils
           select-by-folder: tests
           use-parallel: true
-          use-matlab-cloud: true
           test-results-pdf: test-results/results.pdf
           code-coverage-cobertura: code-coverage/coverage.xml
           logging-level: detailed
@@ -35,4 +34,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage
-          path: coverage.xml
+          path: code-coverage/coverage.xml
