@@ -22,12 +22,18 @@ function w = fun(u,v,method)
         error('fun:NotEnoughInputs', 'At least TWO input argument is required.');
     end
 
+    % Case non-vectors
     if ~isvector(u)
         error('fun:InvalidInput', 'Input argument must be a vector, received %s', mat2str(u));
     end
 
     if ~isvector(v)
         error('fun:InvalidInput','Input argument must be a vector, received %s', mat2str(v));
+    end
+
+    % Case empty vectors
+    if isempty(u) || isempty(v)
+	error('fun:InvalidInput', 'Input arguments must not be empty');
     end
 
     % Provide default value for method argument

@@ -78,11 +78,7 @@ classdef test_fun < matlab.unittest.TestCase
 
         function testEmptyVectorFillMode(testCase)
             % Test empty vector with fill mode
-            u = [];
-            v = [1, 2, 3];
-            expected = [1, 2, 3]; % u is extended with zeros
-            actual = fun(u, v, "fill");
-            testCase.verifyEqual(actual, expected);
+            testCase.verifyError(@() fun([], [5 6]), 'fun:InvalidInput');
         end
     end
 end
