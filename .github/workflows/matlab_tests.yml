@@ -30,6 +30,12 @@ jobs:
           logging-level: detailed
           output-detail: verbose
 
+      - name: Upload Test result Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/results.pdf
+
       - name: Upload Code Coverage Report
         uses: actions/upload-artifact@v4
         with:
