@@ -18,7 +18,7 @@ function audio_plot(sound_list)
     end
 
     % If the input is just 1 vector, convert it to a cell array
-    if isvector(sound_list)
+    if ~iscell(sound_list) && isvector(sound_list)
         sound_list = {sound_list};
     end
 
@@ -28,7 +28,8 @@ function audio_plot(sound_list)
     end
     
     % Determine number of audio files
-    num_sounds = numel(sound_list);
+    cell_size = size(sound_list);
+    num_sounds = cell_size(2);
 
     % Create a figure with subplots for each audio file
     figure('Name', 'Audio Waveforms', 'NumberTitle', 'off');
@@ -38,7 +39,7 @@ function audio_plot(sound_list)
         subplot(num_sounds, 1, i);
         
         % Get the current audio data
-        audio_data = sound_list{i};
+        audio_data = sound_list{1,i};
         
         % Plot the waveform
         plot(audio_data);
