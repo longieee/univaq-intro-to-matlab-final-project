@@ -28,7 +28,7 @@ function audio_plot(sound_list)
     end
     
     % Determine number of audio files
-    num_sounds = length(sound_list);
+    num_sounds = numel(sound_list);
 
     % Create a figure with subplots for each audio file
     figure('Name', 'Audio Waveforms', 'NumberTitle', 'off');
