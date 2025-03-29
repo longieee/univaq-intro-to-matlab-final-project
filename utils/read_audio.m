@@ -29,7 +29,23 @@ function channel1 = read_audio(file_path, start, stop, normalize)
     end
     
     % Read audio with specified range
-    [audio_data, fs] = audioread(file_path, [start, stop]);
+    % Convert time in seconds to sample indices if needed
+    info = audioinfo(file_path);
+    fs = info.SampleRate;
+    
+    if isnumeric(start) && start < 1 % Assuming start is in seconds if < 1
+        start_sample = max(1, round(start * fs));
+    else
+        start_sample = start;
+    end
+    
+    if isnumeric(stop) && stop < info.TotalSamples / fs * 0.5 % Assuming stop is in seconds if small
+        stop_sample = min(info.TotalSamples, round(stop * fs));
+    else
+        stop_sample = stop;
+    end
+    
+    [audio_data, fs] = audioread(file_path, [start_sample, stop_sample]);
     channel1 = audio_data(:, 1);
     
     if normalize
