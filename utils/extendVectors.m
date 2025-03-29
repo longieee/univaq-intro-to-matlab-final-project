@@ -24,9 +24,32 @@ function [v1, v2] = extendVectors(v1, v2)
     %       [v1_ext, v2_ext] = extendVectors(v1, v2);
     %       % v1_ext: [1; 2; 0; 0], v2_ext: [3; 4; 5; 6]
 
-    % Validate inputs
-    if ~isvector(v1) || ~isvector(v2)
+    % Validate inputs - consider empty arrays as valid vectors
+    if (~isempty(v1) && ~isvector(v1)) || (~isempty(v2) && ~isvector(v2))
         error('Both inputs must be vectors.');
+    end
+    
+    % Determine the orientation (row or column) for empty vectors
+    if isempty(v1)
+        % If v1 is empty, use the orientation of v2, or default to row
+        if isrow(v2)
+            v1 = zeros(1, 0);  % Empty row vector
+        elseif iscolumn(v2)
+            v1 = zeros(0, 1);  % Empty column vector
+        else
+            v1 = zeros(1, 0);  % Default to row vector
+        end
+    end
+    
+    if isempty(v2)
+        % If v2 is empty, use the orientation of v1, or default to row
+        if isrow(v1)
+            v2 = zeros(1, 0);
+        elseif iscolumn(v1)
+            v2 = zeros(0, 1);
+        else
+            v2 = zeros(1, 0);
+        end
     end
     
     % Get lengths
@@ -36,9 +59,18 @@ function [v1, v2] = extendVectors(v1, v2)
 
     % Extend the shorter vector while maintaining shape
     if len1 < maxLen
-        v1(maxLen) = 0; % MATLAB automatically extends with zeros
+        if isrow(v1) || (isempty(v1) && isrow(v2))
+            v1(1, maxLen) = 0;  % Extend row vector
+        else
+            v1(maxLen, 1) = 0;  % Extend column vector
+        end
     end
+    
     if len2 < maxLen
-        v2(maxLen) = 0;
+        if isrow(v2) || (isempty(v2) && isrow(v1))
+            v2(1, maxLen) = 0;  % Extend row vector
+        else
+            v2(maxLen, 1) = 0;  % Extend column vector
+        end
     end
 end

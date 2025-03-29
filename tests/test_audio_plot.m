@@ -80,8 +80,11 @@ classdef test_audio_plot < matlab.unittest.TestCase
                 fig = findobj('Type', 'figure', 'Name', 'Audio Waveforms');
                 ax = findobj(fig, 'Type', 'axes');
                 
-                % Check that title, x-label, and y-label exist
-                testCase.verifyEqual(length(findobj(ax, 'Type', 'text')), 1, 'Should have a title');
+                % Check that title exists using the Title property
+                testCase.verifyNotEmpty(get(ax, 'Title'), 'Should have a title');
+                testCase.verifyNotEmpty(get(ax(1).Title, 'String'), 'Title should have text');
+                
+                % Check that x-label and y-label exist
                 testCase.verifyEqual(length(get(ax, 'XLabel')), 1, 'Should have an x-label');
                 testCase.verifyEqual(length(get(ax, 'YLabel')), 1, 'Should have a y-label');
                 
