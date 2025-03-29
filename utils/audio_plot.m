@@ -17,10 +17,11 @@ function audio_plot(sound_list)
         error('audio_plot:InvalidInput', 'Input cell array is empty.');
     end
 
-    % If the input is just a string, convert it to a cell array
-    if ischar(sound_list)
+    % If the input is just 1 vector, convert it to a cell array
+    if isvector(sound_list)
         sound_list = {sound_list};
     end
+    
     % Check if the input is a cell array
     if ~iscell(sound_list)
         error('audio_plot:InvalidInput', 'Input must be a cell array of audio file paths.');
