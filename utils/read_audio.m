@@ -64,6 +64,4 @@ function channel1 = read_audio(file_path, start, stop, normalize)
     % Display the duration of the audio
     duration = length(channel1) / fs;
     disp(['Duration: ', num2str(duration), ' seconds']);
-    % Display the range read
-    disp(['Range: ', num2str(start), ' to ', num2str(stop), ' (', num2str(stop-start+1), ' samples)']);
 end
