@@ -1,5 +1,5 @@
-function plot_audios(sound_list)
-    %PLOT_AUDIOS Takes in a list of audio files and plots their waveforms
+function audio_plot(sound_list)
+    %AUDIO_PLOT Takes in a list of audio files and plots their waveforms
     % This function is intended to plot the waveforms before and after transformations
     % written inside the rest of the script.
     % The "audios" are essentially vectors of the first channel of the audio
@@ -10,11 +10,11 @@ function plot_audios(sound_list)
     %   Outputs:
     %       None, but the function will display the waveforms of the audio files
     %   Example usage:
-    %       plot_audios({vector1, vector2, vector3});
+    %       audio_plot({vector1, vector2, vector3});
 
     % Check if the cell array is empty
     if isempty(sound_list)
-        error('plot_audios:InvalidInput', 'Input cell array is empty.');
+        error('audio_plot:InvalidInput', 'Input cell array is empty.');
     end
 
     % If the input is just a string, convert it to a cell array
@@ -23,7 +23,7 @@ function plot_audios(sound_list)
     end
     % Check if the input is a cell array
     if ~iscell(sound_list)
-        error('plot_audios:InvalidInput', 'Input must be a cell array of audio file paths.');
+        error('audio_plot:InvalidInput', 'Input must be a cell array of audio file paths.');
     end
     % Initialize an empty cell array to hold the audio data
     audio_data = cell(length(sound_list), 1);

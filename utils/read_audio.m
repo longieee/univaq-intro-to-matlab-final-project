@@ -1,6 +1,6 @@
-function channel1 = read_mp3(file_path, normalize)
-    %READ_MP3 Read an MP3 file and return the first channel
-    %   channel1 = read_mp3(file_path, normalize) reads the MP3 file specified
+function channel1 = read_audio(file_path, normalize)
+    %READ_AUDIO Read an MP3 file and return the first channel
+    %   channel1 = read_audio(file_path, normalize) reads the MP3 file specified
     %   by file_path and returns the first channel of the audio data. If
     %   normalize is true, the audio data is normalized to the range [-1, 1].
     %   If normalize is not specified, it defaults to false.
@@ -10,8 +10,8 @@ function channel1 = read_mp3(file_path, normalize)
     %   Outputs:
     %       channel1 - First channel of the audio data
     %   Example usage:
-    %       channel1 = read_mp3('path/to/audio.mp3', true);
-    
+    %       channel1 = read_audio('path/to/audio.mp3', true);
+
     [audio_data, fs] = audioread(file_path);
     channel1 = audio_data(:, 1);
     
