@@ -87,8 +87,15 @@ classdef test_read_audio < matlab.unittest.TestCase
             time_start = 0.5; % 0.5 seconds
             sample_start = round(time_start * fs);
             
-            channel1 = read_audio(testCase.TestFile, time_start, 1000);
-            channel2 = read_audio(testCase.TestFile, sample_start, 1000);
+            % Define a duration in samples and calculate equivalent time
+            sample_duration = 1000; 
+            time_duration = sample_duration / fs;
+            
+            % First call with time parameters
+            channel1 = read_audio(testCase.TestFile, time_start, time_start + time_duration);
+            
+            % Second call with equivalent sample parameters
+            channel2 = read_audio(testCase.TestFile, sample_start, sample_start + sample_duration);
             
             testCase.verifyEqual(channel1, channel2, 'Time-based start should convert correctly to samples');
         end
