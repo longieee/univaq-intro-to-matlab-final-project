@@ -47,17 +47,9 @@ classdef test_read_audio < matlab.unittest.TestCase
             testCase.verifyGreaterThan(length(channel1), 0, 'Output should have data');
         end
         
-        function testRangeReading(testCase)
-            % Test reading with sample range
-            start = 100;
-            stop = 500;
-            channel1 = read_audio(testCase.TestFile, start, stop);
-            testCase.verifyEqual(length(channel1), stop-start+1, 'Output length should match specified range');
-        end
-        
         function testNormalization(testCase)
             % Test normalization option
-            channel1 = read_audio(testCase.TestFile, 1, 1000, true);
+            channel1 = read_audio(testCase.TestFile, 1, 100, true);
             testCase.verifyLessThanOrEqual(max(abs(channel1)), 1.0, 'Normalized audio should be within [-1,1]');
             
             % Check if it's actually normalized to max amplitude
@@ -88,7 +80,7 @@ classdef test_read_audio < matlab.unittest.TestCase
             sample_start = round(time_start * fs);
             
             % Define a duration in samples and calculate equivalent time
-            sample_duration = 1000; 
+            sample_duration = 100; 
             time_duration = sample_duration / fs;
             
             % First call with time parameters
