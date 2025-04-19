@@ -33,20 +33,10 @@ function channel1 = read_audio(file_path, start, stop, normalize)
     info = audioinfo(file_path);
     fs = info.SampleRate;
     
-    % Determine if start is in seconds (if less than 1 and not an integer)
-    is_start_in_seconds = isnumeric(start) && start < 1 && mod(start, 1) > 0;
-    if is_start_in_seconds
-        start_sample = max(1, round(start * fs));
-    else
-        start_sample = start;
-    end
-    
-    % Use the same logic for stop - only convert if start was in seconds
-    if is_start_in_seconds && isnumeric(stop) && stop < info.TotalSamples
-        stop_sample = min(info.TotalSamples, round(stop * fs));
-    else
-        stop_sample = stop;
-    end
+    % Convert start form seconds to samples
+    start_sample = max(1, round(start * fs));
+    % Convert stop from seconds to samples
+    stop_sample = min(info.TotalSamples, round(stop * fs));
     
     [audio_data, fs] = audioread(file_path, [start_sample, stop_sample]);
     channel1 = audio_data(:, 1);
