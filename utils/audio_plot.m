@@ -34,9 +34,14 @@ function audio_plot(sound_list)
     % Create a figure with subplots for each audio file
     figure('Name', 'Audio Waveforms', 'NumberTitle', 'off');
 
+       % Create a figure with subplots for each audio file
+    figure('Name', 'Audio Waveforms', 'NumberTitle', 'off');
+    % Initialize an array to store axes handles
+    ax = zeros(num_sounds, 1);
+
     % Loop through each audio file and plot its waveform
     for i = 1:num_sounds
-        subplot(num_sounds, 1, i);
+        ax(i) = subplot(num_sounds, 1, i);
         
         % Get the current audio data
         audio_data = sound_list{1,i};
@@ -52,6 +57,9 @@ function audio_plot(sound_list)
         % Add grid for better visualization
         grid on;
     end
+
+    % Link all axes to share control
+    linkaxes(ax, 'x');
 
     % Adjust the spacing between subplots
     set(gcf, 'Position', [100, 100, 800, 200*num_sounds]);
