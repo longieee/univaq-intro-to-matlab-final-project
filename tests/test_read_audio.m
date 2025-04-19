@@ -49,7 +49,8 @@ classdef test_read_audio < matlab.unittest.TestCase
         
         function testNormalization(testCase)
             % Test normalization option
-            channel1 = read_audio(testCase.TestFile, 1, 100, true);
+            % Using 0-0.1 seconds instead of sample indices
+            channel1 = read_audio(testCase.TestFile, 0, 0.1, true);
             testCase.verifyLessThanOrEqual(max(abs(channel1)), 1.0, 'Normalized audio should be within [-1,1]');
             
             % Check if it's actually normalized to max amplitude
@@ -65,41 +66,53 @@ classdef test_read_audio < matlab.unittest.TestCase
             
             % With explicit defaults
             info = audioinfo(testCase.TestFile);
-            channel_with_defaults = read_audio(testCase.TestFile, 1, info.TotalSamples, false);
+            duration = info.Duration;
+            channel_with_defaults = read_audio(testCase.TestFile, 0, duration, false);
             
             testCase.verifyEqual(full_channel, channel_with_defaults, 'Default arguments should produce same result');
         end
         
         function testTimeBasedInput(testCase)
-            % Test time-based input (seconds)
+            % Test time-based input
+            % Using audioread directly with samples to compare with read_audio using time
             info = audioinfo(testCase.TestFile);
             fs = info.SampleRate;
             
-            % Test with start time in seconds
+            % Test with specific time range
             time_start = 0.5; % 0.5 seconds
+            time_end = 1.0; % 1.0 seconds
+            
+            % Calculate corresponding sample range
             sample_start = round(time_start * fs);
+            sample_end = round(time_end * fs);
             
-            % Define a duration in samples and calculate equivalent time
-            sample_duration = 100; 
-            time_duration = sample_duration / fs;
+            % Get audio directly using sample indices with audioread
+            [audio_data, ~] = audioread(testCase.TestFile, [sample_start, sample_end]);
+            expected_channel1 = audio_data(:, 1);
             
-            % First call with time parameters
-            channel1 = read_audio(testCase.TestFile, time_start, time_start + time_duration);
+            % Get audio using read_audio with time-based parameters
+            actual_channel1 = read_audio(testCase.TestFile, time_start, time_end);
             
-            % Second call with equivalent sample parameters
-            channel2 = read_audio(testCase.TestFile, sample_start, sample_start + sample_duration);
-            
-            testCase.verifyEqual(channel1, channel2, 'Time-based start should convert correctly to samples');
+            testCase.verifyEqual(actual_channel1, expected_channel1, 'Time-based input should match direct sample access');
         end
         
         function testChannelExtraction(testCase)
             % Test that only first channel is returned
-            % Our test file is stereo - first channel is sin(2*pi*440*t) at full volume
-            [audio_data, ~] = audioread(testCase.TestFile, [1, 1000]);
+            % Time-based parameters (0 to 0.02 seconds)
+            time_start = 0;
+            time_end = 0.02;
+            fs = audioinfo(testCase.TestFile).SampleRate;
+            
+            % Calculate sample range
+            sample_start = max(1, round(time_start * fs));
+            sample_end = round(time_end * fs);
+            
+            % Get expected first channel directly
+            [audio_data, ~] = audioread(testCase.TestFile, [sample_start, sample_end]);
             expected_channel1 = audio_data(:, 1);
             
             % Compare with read_audio output
-            actual_channel1 = read_audio(testCase.TestFile, 1, 1000);
+            actual_channel1 = read_audio(testCase.TestFile, time_start, time_end);
             
             testCase.verifyEqual(actual_channel1, expected_channel1, 'First channel should be extracted correctly');
         end
