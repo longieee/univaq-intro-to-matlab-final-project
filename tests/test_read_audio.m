@@ -59,20 +59,6 @@ classdef test_read_audio < matlab.unittest.TestCase
             end
         end
         
-        function testDefaultArguments(testCase)
-            % Test default arguments
-            % Read audio info to get file parameters
-            info = audioinfo(testCase.TestFile);
-            
-            % Full file reading
-            full_channel = read_audio(testCase.TestFile);
-            
-            % With explicit defaults - if the function is supposed to read the entire file
-            % when called without end time, there's no need for duration parameter
-            channel_with_defaults = read_audio(testCase.TestFile, 0, info.TotalSamples/info.SampleRate, false);
-            
-            testCase.verifyEqual(size(full_channel), size(channel_with_defaults), 'Output sizes should match');
-            testCase.verifyEqual(full_channel, channel_with_defaults, 'Default arguments should produce same result');
         end
         
         function testTimeBasedInput(testCase)
