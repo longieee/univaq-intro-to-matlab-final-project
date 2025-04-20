@@ -35,6 +35,32 @@
   {\begin{mdframed}\begin{definition}}
   {\end{definition}\end{mdframed}}
 
+\usepackage{xcolor}
+\definecolor{commentgreen}{RGB}{2,112,10}
+\definecolor{eminence}{RGB}{108,48,130}
+\definecolor{weborange}{RGB}{255,165,0}
+\definecolor{frenchplum}{RGB}{129,20,83}
+\lstset{
+  language=Matlab,
+  frame=tb,
+  tabsize=4,
+  showstringspaces=false,
+  numbers=left,
+  %upquote=true,
+  commentstyle=\color{commentgreen},
+  keywordstyle=\color{eminence},
+  stringstyle=\color{red},
+  basicstyle=\small\ttfamily, % basic font setting
+  emph={int,char,double,float,unsigned,void,bool},
+  emphstyle={\color{blue}},
+  % escapechar=\&,
+  % keyword highlighting
+  classoffset=1, % starting new class
+  otherkeywords={>,<,.,;,-,!,=,~},
+  morekeywords={>,<,.,;,-,!,=,~},
+  keywordstyle=\color{weborange},
+  classoffset=0,
+}
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
@@ -54,6 +80,8 @@
 \author{Long Nguyen}
 
 \begin{document}
+\includepdf[pages=-]{rendered/project-description.pdf}
+
 \maketitle
 
 \section{Project requirements}
@@ -143,7 +171,6 @@ A possible real-life application: The workflow runs the unit tests and if they p
   | |____read_audio.m
   | |____extendVectors.m
   | |____audio_plot.m
-  |____report.synctex.gz
   |____README.md
   |____report.tex
   |____rendered
@@ -151,6 +178,10 @@ A possible real-life application: The workflow runs the unit tests and if they p
   | |____audio_result_normalized.png
   | |____project-description.pdf
   | |____audio_result_normalized_zoomed.png
+  | |____report.synctex.gz
+  | |____report.pdf
+  | |____results.pdf
+  | |____coverage.xml
   |____.gitignore
   |____main.m
   |____static
@@ -159,7 +190,7 @@ A possible real-life application: The workflow runs the unit tests and if they p
   |____.github
   | |____workflows
   | | |____matlab_tests.yml
-  |____report.pdf
+
 \end{verbatim}
 
 \subsection*{Main file (main.m)}
@@ -190,5 +221,11 @@ A possible real-life application: The workflow runs the unit tests and if they p
 \subsection*{Other files}
 \subsubsection*{Github workflow}
 \lstinputlisting{.github/workflows/matlab_tests.yml}
+
+\subsection*{Generated test report}
+\includepdf[pages=-]{rendered/results.pdf}
+
+\subsection*{Code coverage report}
+\lstinputlisting[language=xml]{rendered/coverage.xml}
 
 \end{document}
